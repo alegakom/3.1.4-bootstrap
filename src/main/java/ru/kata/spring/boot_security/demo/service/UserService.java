@@ -9,7 +9,7 @@ public interface UserService extends UserDao {
     List<User> getAllUsers ();
 
     @Override
-    User findByUserName(String username);
+    User findByUsername(String username);
 
     @Override
     void saveUser(User user);
@@ -22,4 +22,7 @@ public interface UserService extends UserDao {
 
     @Override
     User getUserById(long id);
+
+    @Override
+    String encode(CharSequence password);
 }

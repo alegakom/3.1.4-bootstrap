@@ -24,7 +24,7 @@
 
         </div>
         <div class="col-md-1">
-            <span style="color: darkgrey" onclick="window.location.href='/logout';">Logout</span>
+            <button style="color: darkgrey; background: black" onclick="window.location.href='/logout';">Logout</button>
         </div>
     </div>
 </div>
@@ -65,8 +65,37 @@
                                 <td style="color:black"  th:text="${user.getAge()}"/>
                                 <td style="color:black"  th:text="${user.getUsername()}"/>
                                 <td style="color:black"  th:text="${user.getRolesForWeb()}"/>
+                                <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Change password</button>
+
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"> new password</h5>
+                                                <button class="btn-close" data-dismiss="modal" aria-label="close">X</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <p>change password</p>
+                                                    <form method="POST">
+                                                        <p><label for="newPassword"></label>
+                                                            <input type="text" name="newPassword" value="" pattern="^[a-zA-Z0-9_.$]+$" id="newPassword" placeholder="newPassword" required></p>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-secondary">Change</button>
+                                                        </div>
+                                                    </form>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
                             </tr>
                         </table>
+
                     </div>
                 </div>
             </div>

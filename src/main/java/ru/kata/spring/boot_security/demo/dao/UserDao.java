@@ -9,6 +9,7 @@ public interface UserDao {
     void saveUser(User user);
     void removeUser(long id);
     void updateUser(User user);
+    public String encode(CharSequence password);
     User getUserById(long id);
-    User findByUserName (String username);
+    User findByUsername (String username);
 }

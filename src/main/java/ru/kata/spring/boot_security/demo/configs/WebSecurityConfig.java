@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -17,13 +16,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private UserDetailsService userDetailsService;
 
+    final
+    PasswordEncoder passwordEncoder;
+
     @Autowired
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.successUserHandler = successUserHandler;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,17 +47,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
@@ -65,14 +61,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Override
 //    public UserDetailsService userDetailsService() {
 //        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
+//                User.withDefaultPasswordEncoder
 //                        .username("admin")
 //                        .password("admin")
 //                        .roles("ADMIN", "USER")
 //                        .build();
 //
 //        UserDetails user =
-//                User.withDefaultPasswordEncoder()
+//                User.withDefaultPasswordEncoder
 //                        .username("user")
 //                        .password("user")
 //                        .roles("USER")
@@ -84,14 +80,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Bean
 //    public UserDetailsService userDetailsService (DataSource datasource) {
 //        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
+//                User.withDefaultPasswordEncoder
 //                        .username("alegakom")
 //                        .password("admin")
 //                        .roles("ADMIN", "USER")
 //                        .build();
 //
 //        UserDetails user =
-//                User.withDefaultPasswordEncoder()
+//                User.withDefaultPasswordEncoder
 //                        .username("user")
 //                        .password("user")
 //                        .roles("USER")

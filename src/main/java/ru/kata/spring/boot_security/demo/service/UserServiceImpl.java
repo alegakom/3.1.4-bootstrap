@@ -13,6 +13,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
    private final UserDao userDao;
 
+
     @Autowired
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -47,7 +48,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User findByUserName(String username) {
-        return userDao.findByUserName(username);
+    public User findByUsername(String username) {
+        return userDao.findByUsername(username);
+    }
+
+    @Override
+    public String encode(CharSequence password) {
+        return userDao.encode(password);
     }
 }

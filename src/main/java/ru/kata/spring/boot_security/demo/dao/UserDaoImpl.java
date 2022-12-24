@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
+import ru.kata.spring.boot_security.demo.configs.PasswordEncoderConfig;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
@@ -12,8 +13,15 @@ import java.util.List;
 @Repository
 public class UserDaoImpl implements UserDao {
 
+    private final PasswordEncoderConfig passwordEncoderConfig;
+
     @PersistenceContext
     private EntityManager entityManager;
+
+    public UserDaoImpl(PasswordEncoderConfig passwordEncoderConfig) {
+        this.passwordEncoderConfig = passwordEncoderConfig;
+    }
+
     @Override
     public List<User> getAllUsers() {
         String sql = "select u from User u";
@@ -37,12 +45,17 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public String encode(CharSequence password) {
+        return passwordEncoderConfig.passwordEncoder().encode(password);
+    }
+
+    @Override
     public User getUserById(long id) {
         return entityManager.find(User.class,id);
     }
 
     @Override
-    public User findByUserName(String username) {
+    public User findByUsername(String username) {
         try{
             TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.username = :username", User.class);
             return query.setParameter("username", username)
