@@ -21,11 +21,6 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    @Override
-    public Role getRoleByName(String role) {
-        return userDao.getRoleByName(role);
-    }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -68,5 +63,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Role> getAllRoles() {
         return userDao.getAllRoles();
+    }
+
+    @Override
+    public Role getRoleByName(String role) {
+        return userDao.getRoleByName(role);
     }
 }

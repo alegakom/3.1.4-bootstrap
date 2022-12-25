@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Role getRoleByName(String role) {
         try {
-            TypedQuery<Role> query = entityManager.createQuery("SELECT r FROM Role r JOIN FETCH r.users WHERE r.role = :role", Role.class);
+            TypedQuery<Role> query = entityManager.createQuery("SELECT r FROM Role r WHERE r.role = :role", Role.class);
             return query.setParameter("role", role)
                     .getSingleResult();
         } catch (Exception e) {
