@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -14,10 +15,17 @@ public class UserServiceImpl implements UserService {
    private final UserDao userDao;
 
 
+
     @Autowired
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
+
+    @Override
+    public Role getRoleByName(String role) {
+        return userDao.getRoleByName(role);
+    }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -55,5 +63,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public String encode(CharSequence password) {
         return userDao.encode(password);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+        return userDao.getAllRoles();
     }
 }

@@ -3,7 +3,10 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -32,6 +35,9 @@ public class AdminUserController {
         model.addAttribute("userList",
                 userList.stream().toList());
         // нужно не забыть указать передаваемый объект "userList" в .html
+        List<Role> rolesList;
+        rolesList = userService.getAllRoles();
+        model.addAttribute("userRoles", rolesList);
         return "admin";
     }
     @PostMapping(value = "/admin/save")
@@ -43,7 +49,7 @@ public class AdminUserController {
                            @RequestParam(value = "roles") String role) {
         String encodedPassword = userService.encode(password);
         User user = new User(name, lastName, age, username, encodedPassword);
-        user.addUserRole(new Role(role.toUpperCase()));
+        user.setUserRole(userService.getRoleByName(role));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -74,7 +80,7 @@ public class AdminUserController {
         user.setAge(age);
         user.setUsername(username);
         user.setPassword(encodedPassword);
-        user.addUserRole(new Role(role.toUpperCase()));
+        user.setUserRole(userService.getRoleByName(role));
         userService.updateUser(user);
         return "redirect:/admin";
     }

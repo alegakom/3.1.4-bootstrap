@@ -11,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,12 +26,13 @@ public class Role implements GrantedAuthority {
     )
     private List<User> users = new ArrayList<>();
 
-    public Role() {
-
-    }
 
     public Role(String role) {
         this.role = role;
+    }
+
+    public Role() {
+
     }
 
     public void addRoleToUser (User user) {
@@ -38,6 +41,7 @@ public class Role implements GrantedAuthority {
             users.add(user);
         }
     }
+
 
     public void setRole(String role) {
         this.role = role;

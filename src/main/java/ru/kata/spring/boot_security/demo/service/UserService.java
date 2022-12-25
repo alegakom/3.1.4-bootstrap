@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import ru.kata.spring.boot_security.demo.dao.UserDao;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -25,4 +26,9 @@ public interface UserService extends UserDao {
 
     @Override
     String encode(CharSequence password);
+
+    @Override
+    List<Role> getAllRoles();
+    @Override
+    Role getRoleByName(String role);
 }

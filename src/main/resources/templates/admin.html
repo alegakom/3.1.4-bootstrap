@@ -15,13 +15,10 @@
 <body>
 <div style="background-color: black; color: white" class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
-            <span style="font-weight: bold" th:text="${mainUser.getUsername()}"/>
+        <div class="col-md-11">
+            <span style="font-weight: bold" th:text="${princ}"/>
             with roles:
             <span th:text="${mainUser.getRolesForWeb()}"/>
-        </div>
-        <div class="col-md-8">
-
         </div>
         <div class="col-md-1">
             <button style="color: darkgrey; background: black" onclick="window.location.href='/logout';">Logout</button>
@@ -83,9 +80,10 @@
                                                 <td style="color:black"  th:text="${user.getUsername()}"/>
                                                 <td style="color:black"  th:text="${user.getRolesForWeb()}"/>
                                                 <td>
-                                                    <p><button type="button" th:formaction="${'/admin/update/'+ user.id}" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit</button></p>
+                                                    <p><button type="button" th:formaction="${'/admin/update/'+ user.id}" class="btn btn-primary" data-toggle="modal" data-target="#editModal"
+                                                               th:data-target="${'#editModal'+ user.id}">Edit</button></p>
 
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" th:id="${'editModal'+ user.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content" id="exampleModalLabel">
                                                                 <div class="modal-header">
@@ -97,21 +95,18 @@
                                                                     <p><label for="userId"></label>
                                                                         <input style="background: darkgrey; color: black;" type="text" readonly id="userId" th:placeholder="${user.getId()}"></p>
                                                                     <p><label for="nameEdit"></label>
-                                                                        <input type="text" name="name" value="" pattern="^[a-zA-Z]+$" id="nameEdit" th:placeholder="${user.getName()}" required></p>
+                                                                        <input type="text" name="name" th:value="${user.getName()}" pattern="^[a-zA-Z]+$" id="nameEdit" placeholder="name" required></p>
                                                                     <p><label for="lastNameEdit"></label>
-                                                                        <input type="text" name="lastName" value="" pattern="^[a-zA-Z]+$" id="lastNameEdit" th:placeholder="${user.getLastName()}" required></p>
+                                                                        <input type="text" name="lastName" th:value="${user.getLastName()}" pattern="^[a-zA-Z]+$" id="lastNameEdit" placeholder="lastname" required></p>
                                                                     <p><label for="ageEdit"></label>
-                                                                        <input type="number" name="age" value="" pattern="^[0-9]+$" id="ageEdit" th:placeholder="${user.getAge()}" required></p>
+                                                                        <input type="number" name="age" th:value="${user.getAge()}" pattern="^[0-9]+$" id="ageEdit" placeholder="age" required></p>
                                                                     <p><label for="usernameEdit"></label>
-                                                                        <input type="text" name="username" value="" pattern="^[a-zA-Z]+$" id="usernameEdit" th:placeholder="${user.getUsername()}" required></p>
+                                                                        <input type="text" name="username" th:value="${user.getUsername()}" pattern="^[a-zA-Z]+$" id="usernameEdit" placeholder="username" required></p>
                                                                     <p><label for="passwordEdit"></label>
-                                                                        <input type="text" name="password" value="" pattern="^[a-zA-Z0-9_.$]+$" id="passwordEdit" placeholder="new password" required></p>
-                                                                    <p><label>
-                                                                        <input name="roles" type="radio" value="ROLE_USER" required>
-                                                                    </label> User</p>
-                                                                    <p><label>
-                                                                        <input name="roles" type="radio" value="ROLE_ADMIN" required>
-                                                                    </label> Admin</p>
+                                                                        <input type="text" name="password" pattern="^[a-zA-Z0-9_.$]+$" id="passwordEdit" placeholder="new password" required></p>
+                                                                    <p><label th:each="role: ${userRoles}">
+                                                                        <input th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
+                                                                    </label></p>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-danger">Close</button>
                                                                         <button type="submit" th:formaction="${'/admin/update/'+ user.id}" class="btn btn-warning">Edit</button>
@@ -149,12 +144,9 @@
                                                     <p><label for="age"></label><input type="text" min="1" name="age" value="" pattern="^[0-9]+$" id="age" placeholder="Age" required></p>
                                                     <p><label for="username"></label><input type="text" name="username" value="" pattern="^[a-zA-Z]+$" id="username" placeholder="Username" required></p>
                                                     <p><label for="password"></label><input type="text" name="password" value="" pattern="^[a-zA-Z0-9]+$" id="password" placeholder="Password" required></p>
-                                                    <p><label>
-                                                        <input name="roles" type="radio" value="ROLE_USER" required>
-                                                    </label> User</p>
-                                                    <p><label>
-                                                        <input name="roles" type="radio" value="ROLE_ADMIN" required>
-                                                    </label> Admin</p>
+                                                    <p><label th:each="role: ${userRoles}">
+                                                        <input th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
+                                                    </label></p>
                                                     <p><input type="submit" value="Submit"></p>
                                                 </form>
                                             </div>

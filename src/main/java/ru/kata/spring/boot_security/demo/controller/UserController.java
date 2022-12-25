@@ -24,6 +24,7 @@ public class UserController {
     public String getUsers(Principal principal, ModelMap model){
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
+
 //        через Principal получаем данные авторизованного пользователя bp POST request'а,
 //        создается токен, а через UserService получаем у объекта User его имя из базы по username.
         return "user";
