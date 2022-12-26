@@ -103,12 +103,17 @@
                                                                     <p><label for="usernameEdit"></label>
                                                                         <input type="text" name="username" th:value="${user.getUsername()}" pattern="^[a-zA-Z]+$" id="usernameEdit" placeholder="username" required></p>
                                                                     <p><label for="passwordEdit"></label>
-                                                                        <input type="text" name="password" pattern="^[a-zA-Z0-9_.$]+$" id="passwordEdit" placeholder="new password" required></p>
-                                                                    <p><label th:each="role: ${userRoles}">
-                                                                        <input th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
-                                                                    </label></p>
+                                                                        <input type="text" name="password" pattern="^[a-zA-Z0-9_.$]+$" id="passwordEdit" placeholder="new password"></p>
+                                                                    <p>
+                                                                        <label for="role" th:each="role: ${userRoles}">
+                                                                            <input id="role" th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
+                                                                        </label>
+                                                                        <label for="clean role">
+                                                                            <input id="clean role" data-th-text="'without roles'" name="roles" type="radio" value="without roles" required>
+                                                                        </label>
+                                                                    </p>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger">Close</button>
+                                                                        <button class="btn-close; btn btn-danger" data-dismiss="modal" aria-label="close">Close</button>
                                                                         <button type="submit" th:formaction="${'/admin/update/'+ user.id}" class="btn btn-warning">Edit</button>
                                                                     </div>
                                                                 </form>
@@ -144,9 +149,9 @@
                                                     <p><label for="age"></label><input type="text" min="1" name="age" value="" pattern="^[0-9]+$" id="age" placeholder="Age" required></p>
                                                     <p><label for="username"></label><input type="text" name="username" value="" pattern="^[a-zA-Z]+$" id="username" placeholder="Username" required></p>
                                                     <p><label for="password"></label><input type="text" name="password" value="" pattern="^[a-zA-Z0-9]+$" id="password" placeholder="Password" required></p>
-                                                    <p><label th:each="role: ${userRoles}">
-                                                        <input th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
-                                                    </label></p>
+                                                    <label for="roles" th:each="role: ${userRoles}">
+                                                        <input id="roles" th:data-th-text="${role.role}" name="roles" type="radio" th:value="${role.role}" required>
+                                                    </label>
                                                     <p><input type="submit" value="Submit"></p>
                                                 </form>
                                             </div>

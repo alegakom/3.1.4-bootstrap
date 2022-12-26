@@ -21,9 +21,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/user")
-    public String getUsers(Principal principal, ModelMap model){
-        User user = userService.findByUsername(principal.getName());
-        model.addAttribute("user", user);
+    public String getUsers(ModelMap model){
+        model.addAttribute("user", userService.getPrincipalUser()); // реализовал метод, где получаю авторизованного юзера из авторитихолдера
 
 //        через Principal получаем данные авторизованного пользователя bp POST request'а,
 //        создается токен, а через UserService получаем у объекта User его имя из базы по username.
@@ -34,7 +33,7 @@ public class UserController {
     @PostMapping(value = "/user")
     public String changePassword(@RequestParam(value = "newPassword") String newPassword, Principal principal, ModelMap model){
         User user = userService.findByUsername(principal.getName());
-        user = userService.getUserById(user.getId());
+        user = userService.getPrincipalUser();
         user.setPassword(userService.encode(newPassword));
         userService.updateUser(user);
         return "redirect:/user";

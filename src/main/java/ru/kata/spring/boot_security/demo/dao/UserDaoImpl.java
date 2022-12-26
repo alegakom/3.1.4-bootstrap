@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.configs.PasswordEncoderConfig;
@@ -45,6 +46,10 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
+    public User getPrincipalUser() {
+        return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
     @Override
     public void saveUser(User user) {

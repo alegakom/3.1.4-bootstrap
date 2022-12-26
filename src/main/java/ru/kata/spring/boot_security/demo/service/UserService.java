@@ -31,4 +31,7 @@ public interface UserService extends UserDao {
     List<Role> getAllRoles();
     @Override
     Role getRoleByName(String role);
+
+    @Override
+    User getPrincipalUser();
 }

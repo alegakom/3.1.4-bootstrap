@@ -50,6 +50,9 @@ public class User implements UserDetails {
         roles.add(role);
     }
 
+    public void deleteUserRole() {
+            roles.clear();
+    }
     public User() {
     }
 

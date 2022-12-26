@@ -15,4 +15,5 @@ public interface UserDao {
     public String encode(CharSequence password);
     User getUserById(long id);
     User findByUsername (String username);
+    User getPrincipalUser();
 }

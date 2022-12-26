@@ -11,8 +11,8 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -27,9 +27,8 @@ public class AdminUserController {
     }
 
     @GetMapping(value = "/admin")
-    public String getUsers(Principal principal,ModelMap model){
-        User mainUser = userService.findByUsername(principal.getName());
-        model.addAttribute("mainUser", mainUser);
+    public String getUsers(ModelMap model){
+        model.addAttribute("mainUser", userService.getPrincipalUser());
         List<User> userList;
         userList = userService.getAllUsers();
         model.addAttribute("userList",
@@ -73,14 +72,19 @@ public class AdminUserController {
                                  @RequestParam(value = "username") String username,
                                  @RequestParam(value = "password") String password,
                                  @RequestParam(value = "roles") String role){
-        String encodedPassword = userService.encode(password);
         User user = userService.getUserById(id);
         user.setName(name);
         user.setLastName(lastName);
         user.setAge(age);
         user.setUsername(username);
-        user.setPassword(encodedPassword);
-        user.setUserRole(userService.getRoleByName(role));
+        if(password != null) {
+            String encodedPassword = userService.encode(password);
+            user.setPassword(encodedPassword);}
+        if(Objects.equals(role, "without roles")) {
+            user.deleteUserRole();
+        } else {
+            user.setUserRole(userService.getRoleByName(role));
+        }
         userService.updateUser(user);
         return "redirect:/admin";
     }

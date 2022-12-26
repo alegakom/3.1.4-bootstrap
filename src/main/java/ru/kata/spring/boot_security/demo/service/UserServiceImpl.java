@@ -69,4 +69,9 @@ public class UserServiceImpl implements UserService {
     public Role getRoleByName(String role) {
         return userDao.getRoleByName(role);
     }
+
+    @Override
+    public User getPrincipalUser() {
+        return userDao.getPrincipalUser();
+    }
 }
